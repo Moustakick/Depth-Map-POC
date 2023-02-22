@@ -22,17 +22,23 @@ def main():
     threshold = args.threshold
 
     # process
-    result = ponctual._threshold(image, depthmap, threshold)
+    # result = ponctual._threshold(image, depthmap, threshold)
+    result = local._blur(image, depthmap, threshold)
 
     # denormalize and save the new image
     result = Image.fromarray(np.uint8(result*255))
     result.save('result.png')
 
-'''
-@file : input image file name
-@return : the numpy array normalized representation
-'''
 def load_image(image_file, depthmap_file):
+    """Load the image and depthmap file
+
+    Args:
+        image_file (any): the image file
+        depthmap_file (any): depthmap of the image
+
+    Returns:
+        image, depthmap: the normalized numpy array of the image and the depthmap
+    """
     # load image
     image = Image.open(image_file)
     image = np.asarray(image, dtype=float)
@@ -47,10 +53,18 @@ def load_image(image_file, depthmap_file):
     # resize as image
     depthmap = depthmap.resize((image.shape[1], image.shape[0]))
     depthmap = np.asarray(depthmap, dtype=float)
-    depthmap = np.delete(depthmap, 2, 2)
-    depthmap = np.delete(depthmap, 1, 2)
-    # normalization in [0,1]
-    depthmap = np.clip(depthmap/255, 0, 1)
+    if len(depthmap.shape) == 3 and depthmap.shape[2] == 3:
+        depthmap = np.delete(depthmap, 2, 2)
+        depthmap = np.delete(depthmap, 1, 2)
+        # normalization in [0,1]
+        depthmap = np.clip(depthmap/255, 0, 1)
+    # generalization of the normalization for one chanel
+    else :
+        # find the max value
+        max_depth = np.max(depthmap)
+        min_depth = np.min(depthmap)
+        # normalization in [0,1]
+        depthmap = np.clip((depthmap-min_depth)/max_depth, 0, 1)
 
     return image, depthmap
 

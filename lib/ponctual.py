@@ -1,6 +1,16 @@
 import numpy as np
 
 def _threshold(image, depthmap, threshold):
+    """Generate a new image with the depthmap filter
+
+    Args:
+        image (nparray): the image numpy array
+        depthmap (nparray): the depthmap numpy array
+        threshold (int): the threshold of the depthmap
+
+    Returns:
+        result: the numpy array of the image filtered by the depthmap with the threshold
+    """
     width = image.shape[0]
     height = image.shape[1]
     channels = image.shape[2] 
