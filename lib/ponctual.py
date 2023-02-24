@@ -37,7 +37,8 @@ def fog(image, depthmap, density=1, fog_color=[.5, .5, .5]):
     Args:
         image (array): the image numpy array
         depthmap (array): the depthmap numpy array
-        threshold (int): the threshold of the depthmap
+        density (float): density of the fog
+        fog_color (array): color of the fog
 
     Returns:
         result: the numpy array of the image with a fog effect
