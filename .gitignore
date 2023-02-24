@@ -4,3 +4,4 @@ images
 **/depthmap_generator/image 
 **/depthmap_generator/depthmap
 .DS_Store
+**/lib/*.png
