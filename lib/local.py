@@ -3,9 +3,13 @@ import numpy as np
 def depth_of_field():
     return None
 
-def kernel_result(i, j,  image):
+def kernel_result(i, j, image):
     # kernel = [[1, 2, 1], [2, 4, 2], [1, 2, 1]]
-    kernel = [[1, 4, 7, 4, 1], [4, 16, 26, 16, 4], [7, 26, 41, 26, 7], [4, 16, 26, 16, 4], [1, 4, 7, 4, 1]]
+    kernel = [[1, 4,  7,  4,  1], 
+              [4, 16, 26, 16, 4], 
+              [7, 26, 41, 26, 7], 
+              [4, 16, 26, 16, 4], 
+              [1, 4,  7,  4,  1]]
     result = 0
     width = image.shape[0]
     heigth = image.shape[1]
@@ -17,7 +21,7 @@ def kernel_result(i, j,  image):
                 result += 0
     return result/273
 
-def _blur(image, depthmap, threshold):
+def blur(image, depthmap, threshold):
     """Blur the image with the depthmap
 
     Args:
