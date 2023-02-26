@@ -52,6 +52,13 @@ def save_image(image, name:str):
     result = Image.fromarray(np.uint8(image*255))
     result.save(name+'.png')
 
+def from_numpy_to_pillow(image):
+    return Image.fromarray(np.uint8(image*255))
+
+def from_pillow_to_numpy(image):
+    image = np.asarray(image, dtype=float)
+    return np.clip(image/255, 0, 1)
+
 def lerp(x, y, factor):
     x = np.array([i * factor for i in x])
     y = np.array([i * (1-factor) for i in y])
