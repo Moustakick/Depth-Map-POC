@@ -31,7 +31,7 @@ def main():
     # result = ponctual.threshold(image, depthmap, thrshld, True)
     # result = ponctual.fog(image, depthmap, 4, [.2, .2, .2])
     # result = local.blur(image, depthmap, thrshld)
-    result = local.depth_of_field(image, depthmap, 0.2, 0.2)
+    result = local.depth_of_field(image, depthmap, 0.01, 0.05)
 
     # save 
     utils.save_image(result, 'result')
