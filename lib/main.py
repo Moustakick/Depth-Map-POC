@@ -1,5 +1,5 @@
 import argparse
-import utils, ponctual, local
+import utils, ponctual, local, mesh
 
 def main():
     parser = argparse.ArgumentParser(description='Process two files')
@@ -31,10 +31,11 @@ def main():
     # result = ponctual.threshold(image, depthmap, thrshld, True)
     # result = ponctual.fog(image, depthmap, 4, [.2, .2, .2])
     # result = local.blur(image, depthmap, thrshld)
-    result = local.depth_of_field(image, depthmap, 0.01, 0.05)
+    # result = local.depth_of_field(image, depthmap, 0.11, 0.15)
 
     # save 
-    utils.save_image(result, 'result')
+    # utils.save_image(result, 'result')
+    mesh.save_as_obj(image, depthmap)
 
 if __name__ == "__main__":
     main()
