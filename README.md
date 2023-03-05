@@ -28,3 +28,62 @@ Now you can launch `python3 generator` to generate your depthmaps.
 
 + Télécharger le dataset NyuV2 : https://drive.google.com/drive/folders/1TzwfNA5JRFTPO-kHMU___kILmOEodoBo
 + commande : `python3 main.py "chemin vers l'image couleur" "chemin vers la carte de profondeur" "seuil de profondeur"`
+
+## Utilisation de Opencv
+import cv2
+
+**charger une image couleur**
+
+img=cv2.imread("totoro.png")
+
+**charger une image niveau de gris**
+
+img_depth = cv2.imread("totoro_depth.png",cv2.IMREAD_GRAYSCALE)
+
+**obtenir la taille d'une image**
+
+img.shape
+
+(hauteur, largeur)
+
+**afficher une image**
+
+cv2.imshow("image",img)
+
+**sauvegarder une image**
+
+filename = "resultat.png"
+
+cv2.imwrite(filename, img_depth)
+
+**séparer les canaux d'une image couleur**
+
+B, G, R = cv2.split(img)
+
+cv2.imshow("blue", B)
+
+**additionner(superposer) 2 images**
+
+cv2.addWeighted(img1, wt1, img2, wt2, gammaValue)
+
+wt1 est le poids de l'image1 et wt2 celui de l'image2
+
+gammaValue est la mesure de la lumière, exemple 0
+
+**redimensionner une image**
+
+new_image = cv2.resize(img_depth, (width,height))
+
+**detection de contour Canny**
+
+canny = cv2.Canny(new_image, minval, maxval)
+
+https://docs.opencv.org/4.x/da/d22/tutorial_py_canny.html
+
+
+
+
+
+
+
+
