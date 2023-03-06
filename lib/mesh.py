@@ -2,7 +2,7 @@ from PIL import Image
 import numpy as np
 
 def save_as_obj(image, depthmap):
-    width, height, channels = image.shape
+    height, width, channels = image.shape
     file = open("object.obj", "w")
 
     # name 
@@ -12,8 +12,9 @@ def save_as_obj(image, depthmap):
     # vertices 
     for i in range(height):
         for j in range(width):
-            coord = (i/width, j/height, depthmap[j,i])
-            color = image[j,i]
+            x, y, z = j, 255-i, 255*depthmap[i,j]
+            coord = (x, y, z)
+            color = image[i,j]
             coord = str(coord[0])+" "+str(coord[1])+" "+str(coord[2])
             color = str(color[0])+" "+str(color[1])+" "+str(color[2]) # UNUSED
             file.write("v "+coord+"\n")
@@ -27,7 +28,7 @@ def save_as_obj(image, depthmap):
     #file.write("vn 0.0 0.0 0.0\n") # (unused for now)
     #file.write("\n")
 
-    # faces /!\ height must be even number /!\
+    # faces
     for i in range(height):
         for j in range(width):
             coord = i*width + j +1

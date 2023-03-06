@@ -14,20 +14,20 @@ def threshold(image, depthmap, thrshld:float, keep_near=True):
         result: the numpy array of the image thresholded by depthmap values
     """
 
-    width, height, channels = image.shape
-    result = np.zeros((width, height, channels))
+    height, width, channels = image.shape
+    result = np.zeros((height, width, channels))
 
     # For each pixel of the image
-    for x in range(width):
-        for y in range(height):
+    for i in range(height):
+        for j in range(width):
             # Keep pixel wich are closest than threshold 
             if keep_near :
-                if depthmap[x,y] < thrshld:
-                    result[x,y] = image[x,y]
+                if depthmap[i,j] < thrshld:
+                    result[i,j] = image[i,j]
             # Keep pixel wich are further than threshold 
             else : 
-                if depthmap[x,y] > thrshld:
-                    result[x,y] = image[x,y]
+                if depthmap[i,j] > thrshld:
+                    result[i,j] = image[i,j]
 
     return result
 
@@ -53,15 +53,15 @@ def fog(image, depthmap, density=1, fog_color=[.5, .5, .5]):
     def exponential_squared_fog(depth, density):
         return 2**(-((depth*density)**2))
 
-    width, height, channels = image.shape
-    result = np.zeros((width, height, channels))
+    height, width, channels = image.shape
+    result = np.zeros((height, width, channels))
 
     # For each pixel of the image
-    for x in range(width):
-        for y in range(height):
-            depth = depthmap[x,y]
+    for i in range(height):
+        for j in range(width):
+            depth = depthmap[i,j]
             fog_factor = exponential_squared_fog(depth, density)
-            interpolation = utils.lerp(image[x,y], fog_color, fog_factor)
-            result[x,y] = interpolation
+            interpolation = utils.lerp(image[i,j], fog_color, fog_factor)
+            result[i,j] = interpolation
 
     return result

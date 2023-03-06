@@ -30,12 +30,12 @@ def main():
     # process
     # result = ponctual.threshold(image, depthmap, thrshld, True)
     # result = ponctual.fog(image, depthmap, 4, [.2, .2, .2])
-    # result = local.blur(image, depthmap, thrshld)
-    # result = local.depth_of_field(image, depthmap, 0.11, 0.15)
+    # result = local.blur(image, 17, 17)
+    result = local.depth_of_field(image, depthmap, 0.11, 0.15)
 
     # save 
-    # utils.save_image(result, 'result')
-    mesh.save_as_obj(image, depthmap)
+    utils.save_image(result, 'result')
+    # mesh.save_as_obj(image, depthmap)
 
 if __name__ == "__main__":
     main()

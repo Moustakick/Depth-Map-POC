@@ -1,5 +1,6 @@
-from PIL import Image
 import numpy as np
+import cv2
+from PIL import Image
 
 def load_image(image_file:str, depthmap_file:str) -> tuple:
     """Load the image and depthmap as array
@@ -13,8 +14,7 @@ def load_image(image_file:str, depthmap_file:str) -> tuple:
     """
 
     # load image
-    image = Image.open(image_file)
-    image = np.asarray(image, dtype=float)
+    image = cv2.imread(image_file)
     # delete alpha chanel
     if image.shape[2]==4: 
         image = np.delete(image, 3, 2)
@@ -37,7 +37,6 @@ def load_image(image_file:str, depthmap_file:str) -> tuple:
     a = (1-0) / (max_depth-min_depth)
     b = 1 - a * max_depth
     depthmap = np.clip(a * depthmap + b, 0, 1)
-
     return image, depthmap
 
 def save_image(image, name:str):
@@ -48,16 +47,8 @@ def save_image(image, name:str):
         name (str): the image name without extension
     """
 
-    # denormalize and save the new image
-    result = Image.fromarray(np.uint8(image*255))
-    result.save(name+'.png')
-
-def from_numpy_to_pillow(image):
-    return Image.fromarray(np.uint8(image*255))
-
-def from_pillow_to_numpy(image):
-    image = np.asarray(image, dtype=float)
-    return np.clip(image/255, 0, 1)
+    # denormalize and save
+    cv2.imwrite(name+'.png', image*255)
 
 def lerp(x, y, factor):
     x = np.array([i * factor for i in x])
