@@ -1,5 +1,5 @@
 import argparse
-import utils, ponctual, local, mesh
+import utils, ponctual, local, segmentation, mesh
 
 def main():
     parser = argparse.ArgumentParser(description='Process two files')
@@ -31,7 +31,8 @@ def main():
     # result = ponctual.threshold(image, depthmap, thrshld, True)
     # result = ponctual.fog(image, depthmap, 4, [.2, .2, .2])
     # result = local.blur(image, 17, 17)
-    result = local.depth_of_field(image, depthmap, 0.11, 0.15)
+    # result = local.depth_of_field(image, depthmap, 0.11, 0.15)
+    result = segmentation.watershade(image, depthmap)
 
     # save 
     utils.save_image(result, 'result')

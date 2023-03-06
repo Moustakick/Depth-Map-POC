@@ -32,11 +32,7 @@ def load_image(image_file:str, depthmap_file:str) -> tuple:
         depthmap = np.delete(depthmap, 1, 2)
         depthmap = np.reshape(depthmap, (image.shape[0], image.shape[1]))
     # normalization in [0,1]
-    max_depth = np.max(depthmap)
-    min_depth = np.min(depthmap)
-    a = (1-0) / (max_depth-min_depth)
-    b = 1 - a * max_depth
-    depthmap = np.clip(a * depthmap + b, 0, 1)
+    depthmap = interval(depthmap, 0, 1)
     return image, depthmap
 
 def save_image(image, name:str):
@@ -48,7 +44,16 @@ def save_image(image, name:str):
     """
 
     # denormalize and save
-    cv2.imwrite(name+'.png', image*255)
+    image = interval(image, 0, 255)
+    cv2.imwrite(name+'.png', image)
+
+def interval(image, new_min, new_max):
+    max = np.max(image)
+    min = np.min(image)
+    a = (new_max-new_min) / (max-min)
+    b = new_max - a * max
+    image = np.clip(a * image + b, new_min, new_max)
+    return image
 
 def lerp(x, y, factor):
     x = np.array([i * factor for i in x])
