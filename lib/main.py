@@ -1,5 +1,5 @@
 import argparse
-import utils, ponctual, local, segmentation, mesh
+import utils, ponctual_processing, local_processing, global_processing, segmentation, mesh
 
 def main():
     parser = argparse.ArgumentParser(description='Process two files')
@@ -32,7 +32,8 @@ def main():
     # result = ponctual.fog(image, depthmap, 4, [.2, .2, .2])
     # result = local.blur(image, 17, 17)
     # result = local.depth_of_field(image, depthmap, 0.11, 0.15)
-    result = segmentation.gradient(image, depthmap)
+    result = global_processing.graylvl_quantization(depthmap, 8)
+    # result = segmentation.gradient(image, depthmap)
 
     # save 
     utils.save_image(result, 'result')
