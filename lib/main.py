@@ -32,7 +32,7 @@ def main():
     # result = ponctual.fog(image, depthmap, 4, [.2, .2, .2])
     # result = local.blur(image, 17, 17)
     # result = local.depth_of_field(image, depthmap, 0.11, 0.15)
-    result = segmentation.watershade(image, depthmap)
+    result = segmentation.gradient(image, depthmap)
 
     # save 
     utils.save_image(result, 'result')
