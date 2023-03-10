@@ -33,7 +33,9 @@ def main():
     # result = local.blur(image, 17, 17)
     # result = local.depth_of_field(image, depthmap, 0.11, 0.15)
     result = global_processing.graylvl_quantization(depthmap, 8)
-    # result = segmentation.gradient(image, depthmap)
+    # result = segmentation.edges(depthmap)
+    result = segmentation.extract_per_lvl(result)
+    result = segmentation.watershade(image, depthmap, result)
 
     # save 
     utils.save_image(result, 'result')
