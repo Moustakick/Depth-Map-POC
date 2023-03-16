@@ -99,7 +99,10 @@ def depth_of_field(image, depthmap, center, radius, extent, kernel_length=7):
 
     # make fields
     near_field = cv2.GaussianBlur(image, (kernel_length, kernel_length), 0)
-    far_field = mask_blur(image, far_field_mask, kernel_length)
+    far_field = np.zeros(image.shape)
+    far_field[far_field_mask == 0] = 0
+    far_field = cv2.GaussianBlur(image, (kernel_length, kernel_length), 0)
+    far_field = utils.interval(far_field, np.min(image), np.max(image))
     #utils.save_image(near_field, 'near_field')
     #utils.save_image(far_field, 'far_field')
 
