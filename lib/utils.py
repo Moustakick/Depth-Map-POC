@@ -56,6 +56,14 @@ def interval(image, new_min, new_max):
     return image
 
 def lerp(x, y, factor):
-    x = np.array([i * factor for i in x])
-    y = np.array([i * (1-factor) for i in y])
+    x = np.array([(1-factor) * i for i in x])
+    y = np.array([factor * i for i in y])
     return x + y
+
+def affine(x0, x1, y0, y1, x):
+    if x0-x1 == 0:
+        return (y0+y1)/2
+    
+    a = (y1-y0) / (x1-x0)
+    b = y0 - a*x0
+    return a*x + b
