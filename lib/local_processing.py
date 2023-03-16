@@ -75,7 +75,7 @@ def extract_masks(image, depthmap, center, radius, extent):
     return near_field_mask, far_field_mask
 
 def depth_of_field(image, depthmap, center, radius, extent, kernel_length=7):
-    """Extract the near and far field masks 
+    """Apply the depth of field effect
     
     Args:
         image (numpy array): the image
@@ -87,7 +87,7 @@ def depth_of_field(image, depthmap, center, radius, extent, kernel_length=7):
         kernel_length: length of gaussian kernel
 
     Returns:
-        tuple: near_field_mask, far_field_mask
+        numpy array: result
     """
 
     height, width, channels = image.shape
@@ -100,7 +100,6 @@ def depth_of_field(image, depthmap, center, radius, extent, kernel_length=7):
     # make fields
     near_field = cv2.GaussianBlur(image, (kernel_length, kernel_length), 0)
     far_field = mask_blur(image, far_field_mask, kernel_length)
-    far_field = utils.interval(far_field, np.min(image), np.max(image))
     #utils.save_image(near_field, 'near_field')
     #utils.save_image(far_field, 'far_field')
 
@@ -114,13 +113,15 @@ def depth_of_field(image, depthmap, center, radius, extent, kernel_length=7):
     return result
 
 def mask_blur(image, mask, kernel_lenght):
-    """Blur the image
+    """Blur the image taking acount the mask
 
     Args:
         image (numpy array): the image
+        mask (numpy array): the mask
+        kernel_length: length of the kernel
 
     Returns:
-        numpy array: the new image
+        numpy array: the blured image
     """
 
     def gaussian_kernel(length=9, std=3):
@@ -156,6 +157,7 @@ def mask_blur(image, mask, kernel_lenght):
 
     kernel = gaussian_kernel(kernel_lenght)
 
+    # apply mask for each pixel
     height, width, channels = image.shape
     result = np.zeros((height, width, channels))
     for i in range(height):
@@ -163,4 +165,5 @@ def mask_blur(image, mask, kernel_lenght):
             if mask[i,j] != 0:
                 result[i,j] = apply_kernel(image, kernel, i, j)
     
+    result = utils.interval(result, np.min(image), np.max(image))
     return result
