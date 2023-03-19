@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import random as rng
+import segmentation_region
 
 def seuil(img_depth, min, max):
     height = img_depth.shape[0]
@@ -21,7 +22,7 @@ img_depth = cv2.imread("totoro_depth.png", cv2.IMREAD_GRAYSCALE)
  
 
 #cv2.imshow("image",img)
-#cv2.imshow("image depth",img_depth)import random as rngimport random as rng
+#cv2.imshow("image depth",img_depth)
  
 print("taille img", img.shape)
 print("taille img depth", img_depth.shape)
@@ -34,30 +35,30 @@ new_image = cv2.resize(img_depth, (img.shape[1], img.shape[0]))
 #print("taille depth resize ", new_image.shape)
 cv2.imshow("depth resize",new_image)
 
-canny_img = cv2.Canny(img, 100, 200)
+#canny_img = cv2.Canny(img, 100, 200)
 #filename = "canny_img.png"
 #cv2.imwrite(filename, canny_img)
 #cv2.imshow("canny img", canny_img)
 
-canny_depth = cv2.Canny(new_image, 10, 90)
+#canny_depth = cv2.Canny(new_image, 10, 90)
 #filename = "canny_depth.png"
 #cv2.imwrite(filename, canny_depth)
 #cv2.imshow("canny depth", canny_depth)
 
 #blur = cv2.blur(new_image, (10,10))
-ret, thresh = cv2.threshold(canny_depth, 1, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-_, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-cv2.drawContours(img, contours, -1, (0,255,0), 3)
-print("len contours", len(contours))
+#ret, thresh = cv2.threshold(canny_depth, 1, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+#_, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+#cv2.drawContours(img, contours, -1, (0,255,0), 3)
+#print("len contours", len(contours))
 #or i in range(len(contours)):
   #      color = (rng.randint(0,256), rng.randint(0,256), rng.randint(0,256))
     #    cv2.drawContours(img, contours, i, color, 2, cv2.LINE_8, hierarchy, 0)
     
-cv2.imshow('Contours', img)
-cv2.imshow('Thresh', thresh)
+#cv2.imshow('Contours', img)
+#cv2.imshow('Thresh', thresh)
 
-filename = "segmentation_2.png"
-cv2.imwrite(filename, img)
+#filename = "segmentation_2.png"
+#cv2.imwrite(filename, img)
 
 #new = seuil(new_image, 10, 50)
 
@@ -74,6 +75,15 @@ cv2.imwrite(filename, img)
 #filename = "seuil_otsu"
 #cv2.imwrite(filename, thresh2)
 #cv2.imshow("thresh4", thresh4)
+
+distance = 5 # écart entre la moyenne de deux régions
+pixelinregion, list_region =segmentation_region.initializeRegion(new_image)
+nb_p_region = pixelinregion.size
+nb_region = len(list_region)
+print("nb_region = ", nb_region, " nb_p_region = ", nb_p_region)
+list_region = segmentation_region.mergeRegion(new_image, list_region, pixelinregion,  distance)
+nb_p_region = len(list_region)
+print("nb_region = ", nb_region)
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()
