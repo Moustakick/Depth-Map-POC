@@ -2,18 +2,14 @@ import numpy as np
 import cv2
 from scipy import signal
 
-import utils, mask_exctraction
+import utils
 
-def depth_of_field(image, depthmap, center, radius, extent, kernel_length=7, debug=False):
+def depth_of_field(image, masks, kernel_length=7, debug=False):
     """Apply the depth of field effect
     
     Args:
         image (numpy array): the image
-        depthmap (numpy array): the depthmap
-        center: focal plane center
-        radius: radius of the focal plane
-        extent: length of both slopes of the transitions
-                between inside and outside of the focal plane
+        masks (tuple): near and far field masks
         kernel_length: length of gaussian kernel
 
     Returns:
@@ -23,7 +19,7 @@ def depth_of_field(image, depthmap, center, radius, extent, kernel_length=7, deb
     height, width, channels = image.shape
 
     # extract masks
-    near_field_mask, far_field_mask = mask_exctraction.ponctual_masks_exctration(image, depthmap, center, radius, extent)
+    near_field_mask, far_field_mask = masks
 
     # make fields
     near_field = cv2.GaussianBlur(image, (kernel_length, kernel_length), 0)
