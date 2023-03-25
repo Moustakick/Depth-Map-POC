@@ -4,6 +4,25 @@ from scipy import signal
 
 import utils
 
+def linghtness(image, masks, value):
+
+    height, width, channels = image.shape
+
+    # extract masks
+    near_field_mask, far_field_mask = masks
+
+    # ...
+    result = np.zeros((height, width, channels))
+    for i in range(height):
+        for j in range(width):
+            result[i,j] = np.clip(utils.lerp(
+                image[i,j] + value,
+                image[i,j],
+                near_field_mask[i,j] + far_field_mask[i,j]
+            ), 0, 1)
+    
+    return result
+
 def depth_of_field(image, masks, kernel_length=7, debug=False):
     """Apply the depth of field effect
     

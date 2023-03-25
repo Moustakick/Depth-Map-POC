@@ -30,8 +30,9 @@ def main():
     # process
     # extract masks
     #result = depth_processing.fog(image, depthmap, 5, [.4, .4, .4])
-    near_field_mask, far_field_mask = mask_exctraction.ponctual_masks_exctration(image, depthmap, 0.02, 0.02, 0.05)
-    result = depth_processing.depth_of_field(image, (near_field_mask, far_field_mask), 13)
+    masks = mask_exctraction.ponctual_masks_exctration(image, depthmap, 0.6, 0.3, 0.2)
+    #result = depth_processing.depth_of_field(image, masks, 13)
+    result = depth_processing.linghtness(image, masks, 0.2)
 
     # save 
     utils.save_image(result, 'result')
