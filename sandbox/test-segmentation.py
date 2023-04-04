@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import random as rng
 import segmentation_region
+import time
 
 def seuil(img_depth, min, max):
     height = img_depth.shape[0]
@@ -33,7 +34,7 @@ new_image = cv2.resize(img_depth, (img.shape[1], img.shape[0]))
 #filename = "depth_resize.png" 
 #cv2.imwrite(filename, new_image)
 #print("taille depth resize ", new_image.shape)
-cv2.imshow("depth resize",new_image)
+#cv2.imshow("depth resize",new_image)
 
 #canny_img = cv2.Canny(img, 100, 200)
 #filename = "canny_img.png"
@@ -75,15 +76,39 @@ cv2.imshow("depth resize",new_image)
 #filename = "seuil_otsu"
 #cv2.imwrite(filename, thresh2)
 #cv2.imshow("thresh4", thresh4)
-
-distance = 5 # écart entre la moyenne de deux régions
-pixelinregion, list_region =segmentation_region.initializeRegion(new_image)
+new_image = img_depth
+debut = time.time()
+distance = 20 # écart entre la moyenne de deux régions
+pixelinregion, list_region, pixelUsed =segmentation_region.initializeRegion(new_image)
 nb_p_region = pixelinregion.size
 nb_region = len(list_region)
 print("nb_region = ", nb_region, " nb_p_region = ", nb_p_region)
-list_region = segmentation_region.mergeRegion(new_image, list_region, pixelinregion,  distance)
+list_region , pixelinregion = segmentation_region.createRegion(new_image, list_region, pixelinregion, pixelUsed, distance)
+fin = time.time()
 nb_p_region = len(list_region)
-print("nb_region = ", nb_region)
+print("nb_region = ", nb_p_region)
 
+print("durée createRegion = ", fin-debut)
+#list_region =  [[0, 858, 6], [543, 1694791, 14829], [857, 77574, 433], [1016, 1554282, 10316], [1123, 343, 3], [1128, 296013, 2737], [1251, 2266482, 17104], [1281, 230027, 2375], [1356, 261028, 2521], [1481, 729225, 5657], [1516, 524, 4], [1572, 134, 1], [1579, 99, 1], [1592, 264, 2], [1625, 4352, 32], [1633, 136, 1], [1687, 250, 2], [1776, 1407280, 9465], [1799, 126, 1]]
+#print(list_region)
+
+# sauvegarde des régions
+filename = "totoro_depth_" + str(distance)
+print("filename = ", filename) 
+segmentation_region.saveRegion(list_region, pixelinregion, filename)
+
+# load des régions
+#pixelinregion, list_region = segmentation_region. loadRegion("totoro_depth_20_pixelinregion.npy", "totoro_depth_20_list_region")
+#print("nombre de régions = ", len(list_region))
+
+debut = time.time()
+nbRegion = 80
+img_region = segmentation_region.regionToDisplay(img_depth, list_region, pixelinregion, nbRegion)
+fin = time.time()
+print("durée regionToDisplay = ", fin-debut)
+filename = "totoro_depth_" 
+filename = filename  + "segmentation_region_" +str(distance) + "_" + str(nbRegion) + ".png"
+cv2.imwrite(filename, img_region)
+cv2.imshow("segmentation", img_region)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
