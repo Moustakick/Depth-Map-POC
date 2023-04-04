@@ -12,8 +12,10 @@
 This part came from [DenseDepth](https://github.com/ialhashim/DenseDepth). 
 
 Dependencies :
+- OpenCV
 - Pillow
 - Numpy
+- Scipy
 - Matplotlib
 - Keras
 - Tensorflow

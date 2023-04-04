@@ -27,15 +27,24 @@ def main():
 
     thrshld = args.threshold
 
-    # process
-    # extract masks
+    ## process exemples ##
+
+    # apply fog
     #result = depth_processing.fog(image, depthmap, 5, [.4, .4, .4])
-    masks = mask_exctraction.ponctual_masks_exctration(image, depthmap, 0.6, 0.3, 0.2)
-    #result = depth_processing.depth_of_field(image, masks, 13)
-    result = depth_processing.linghtness(image, masks, 0.2)
+
+    # extract masks
+    masks = mask_exctraction.ponctual_masks_exctration(image, depthmap, 0.1, 0.2, 0.1)
+
+    # use masks for depth_of_field (portrait) effect
+    result = depth_processing.depth_of_field(image, masks, 13)
+
+    # use masks for lightness correction
+    #result = depth_processing.linghtness(image, masks, 0.2)
 
     # save 
     utils.save_image(result, 'result')
+
+    # generate .obj file 
     # mesh.save_as_obj(image, depthmap)
 
 if __name__ == "__main__":
