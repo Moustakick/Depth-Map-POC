@@ -2,7 +2,19 @@ import numpy as np
 import cv2
 from PIL import Image
 
-def load_image(image_file:str, depthmap_file:str) -> tuple:
+def load_image(image_file:str):
+
+    # load image
+    image = cv2.imread(image_file)
+    # delete alpha chanel
+    if image.shape[2]==4: 
+        image = np.delete(image, 3, 2)
+    # normalization in [0,1]
+    image = np.clip(image/255, 0, 1)
+
+    return image
+
+def load_image_with_depthmap(image_file:str, depthmap_file:str) -> tuple:
     """Load the image and depthmap as array
 
     Args:
@@ -13,13 +25,7 @@ def load_image(image_file:str, depthmap_file:str) -> tuple:
         image, depthmap: the normalized numpy array of the image and the depthmap
     """
 
-    # load image
-    image = cv2.imread(image_file)
-    # delete alpha chanel
-    if image.shape[2]==4: 
-        image = np.delete(image, 3, 2)
-    # normalization in [0,1]
-    image = np.clip(image/255, 0, 1)
+    image = load_image(image_file)
 
     # load depthmap
     depthmap = Image.open(depthmap_file)
