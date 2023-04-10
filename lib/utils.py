@@ -33,7 +33,14 @@ def load_image_with_depthmap(image_file:str, depthmap_file:str) -> tuple:
     depthmap = depthmap.resize((image.shape[1], image.shape[0]))
     depthmap = np.asarray(depthmap, dtype=float)
     # keep only one channel
+    # in 3 channels case (rgb)
     if len(depthmap.shape) == 3 and depthmap.shape[2] == 3:
+        depthmap = np.delete(depthmap, 2, 2)
+        depthmap = np.delete(depthmap, 1, 2)
+        depthmap = np.reshape(depthmap, (image.shape[0], image.shape[1]))
+    # in 4 channels case (rgba)
+    if len(depthmap.shape) == 3 and depthmap.shape[2] == 4:
+        depthmap = np.delete(depthmap, 3, 2)
         depthmap = np.delete(depthmap, 2, 2)
         depthmap = np.delete(depthmap, 1, 2)
         depthmap = np.reshape(depthmap, (image.shape[0], image.shape[1]))
