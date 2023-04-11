@@ -35,6 +35,19 @@ average gradient magnitude :
 | introspection | 551.23303 |    466.7878    |
 |    totoro     | 360.85947 |    273.671     |
 
+phone / camera :
+| image | center | radius | extent
+| :-: | :-: | :-: | :-: |
+| A | 0.4 | 0.2 | 0.2 |
+| B | 0.25 | 0.15 | 0.1 |
+| C | 0.15 | 0.05 | 0.1 |
+| D | 0.1 | 0.08 | 0.1 |
+| E | 0.2 | 0.1 | 0.05 |
+| F | 0.4 | 0.05 | 0.1 |
+| G | 0.15 | 0.05 | 0.1 |
+| H | 0.3 | 0.15 | 0.08 |
+| I | 0.32 | 0.08 | 0.05 |
+
 ## Utilisation de Opencv
 import cv2
 

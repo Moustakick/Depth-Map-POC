@@ -20,20 +20,19 @@ def main():
         index = image_file.rfind('.')
         depthmap_file, extension = image_file[:index], image_file[index:]
         depthmap_file += '_depth' + extension
-    print(image_file, depthmap_file)
     if depthmap_file is not None:
         image, depthmap = utils.load_image_with_depthmap(image_file, depthmap_file)
     else: 
         if image_file is not None:
             image = utils.load_image(image_file)
-        if image_file is not None:
+        if image_file2 is not None:
             image2 = utils.load_image(image_file2)
 
     ''' process exemples '''
     # apply fog
 #    result = depth_processing.fog(image, depthmap, 5, [.4, .4, .4])
     # extract masks
-    masks = mask_exctraction.ponctual_masks_exctration(image, depthmap, center=0.28, radius=0.12, extent=0.18)
+    masks = mask_exctraction.ponctual_masks_exctration(image, depthmap, center=0.32, radius=0.08, extent=0.05)
     # use masks for depth_of_field (portrait) effect
     result = depth_processing.depth_of_field(image, masks, kernel_length=7, debug=True)
     # use masks for lightness correction
