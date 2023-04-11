@@ -39,7 +39,7 @@ def load_image_with_depthmap(image_file:str, depthmap_file:str) -> tuple:
         depthmap = np.delete(depthmap, 1, 2)
         depthmap = np.reshape(depthmap, (image.shape[0], image.shape[1]))
     # in 4 channels case (rgba)
-    if len(depthmap.shape) == 3 and depthmap.shape[2] == 4:
+    elif len(depthmap.shape) == 3 and depthmap.shape[2] == 4:
         depthmap = np.delete(depthmap, 3, 2)
         depthmap = np.delete(depthmap, 2, 2)
         depthmap = np.delete(depthmap, 1, 2)
@@ -60,9 +60,24 @@ def save_image(image, name:str):
     image = interval(image, 0, 255)
     cv2.imwrite(name+'.png', image)
 
+def scale(image, scale):
+    """Rescale image
+
+    Args:
+        image (array): the image file
+    """
+
+    # denormalize and save
+    image = interval(image, 0, 255)
+    image = cv2.resize(image, scale) 
+
+    return image
+
 def interval(image, new_min, new_max):
     max = np.max(image)
     min = np.min(image)
+    if max==min:
+        return image
     a = (new_max-new_min) / (max-min)
     b = new_max - a * max
     image = np.clip(a * image + b, new_min, new_max)

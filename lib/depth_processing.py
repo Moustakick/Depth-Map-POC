@@ -42,7 +42,7 @@ def depth_of_field(image, masks, kernel_length=7, debug=False):
 
     # make fields
     near_field = cv2.GaussianBlur(image, (kernel_length, kernel_length), 0)
-    far_field = mask_blur(image, far_field_mask, 9) # TODO: too slow
+    far_field = mask_blur(image, far_field_mask, kernel_length) # TODO: too slow
     far_field = utils.interval(far_field, np.min(image), np.max(image))
 
     # interpolate fields with image
@@ -79,13 +79,13 @@ def mask_blur(image, mask, kernel_lenght):
         gaussian_kernel_2D = np.outer(gaussian_kernel_1D, gaussian_kernel_1D)
         return gaussian_kernel_2D
     
-    def apply_kernel(image, kernel, I, J):
+    def apply_kernel(image, mask, kernel, I, J):
         """Apply a kernel to an image at a pixel (I,J)"""
         height, width, channels = image.shape
         kernel_height, kernel_width = kernel.shape
         kernel_height_radius, kernel_width_radius = int(kernel_height/2), int(kernel_width/2)
 
-        sum = np.sum(kernel)
+        sum = 0
         value = np.array([0,0,0])
         for i in range(-kernel_height_radius, kernel_height_radius, 1):
             for j in range(-kernel_width_radius, kernel_width_radius, 1):
@@ -99,8 +99,11 @@ def mask_blur(image, mask, kernel_lenght):
                     y = J-j
                 elif y>=width:
                     y = (width-1) - (y-width) 
-                # add value
-                value = value + (kernel[i,j] * np.array(image[x,y]))
+                
+                if mask[x,y]>0:
+                    # add value
+                    value = value + (kernel[i,j] * np.array(image[x,y]))
+                    sum = sum + kernel[i,j]
 
         return value/sum
 
@@ -112,7 +115,7 @@ def mask_blur(image, mask, kernel_lenght):
     for i in range(height):
         for j in range(width):
             if mask[i,j] != 0:
-                result[i,j] = apply_kernel(image, kernel, i, j)
+                result[i,j] = apply_kernel(image, mask, kernel, i, j)
     
     return result
 
