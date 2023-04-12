@@ -1,5 +1,6 @@
 import argparse
 import utils, depth_processing, mask_exctraction, mesh, quality_measures
+import segmentation_region
 
 def main():
     parser = argparse.ArgumentParser(description='Process two files')
@@ -51,6 +52,10 @@ def main():
 #    mesh.save_as_obj(image, depthmap)
     # show measure 
 #    print("eval:", evaluation)
+
+# pour faire une segmentation par région
+#distance = 10 # écart entre la moyenne de deux régions
+#segmentation_region.segmentation(depthmap_file, distance)
 
 if __name__ == "__main__":
     main()
