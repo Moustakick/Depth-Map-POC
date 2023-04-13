@@ -1,11 +1,11 @@
 # PDP
 
-## Liens utiles
+## Useful links
 
 + Dataset NyuV2 : https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html
 + Dense-Depth : https://github.com/ialhashim/DenseDepth
 
-## Utilisation 
+## Use
 
 ### Depthmap generator
 
