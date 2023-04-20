@@ -1,11 +1,11 @@
 # PDP
 
-## Liens utiles
+## Useful links
 
 + Dataset NyuV2 : https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html
 + Dense-Depth : https://github.com/ialhashim/DenseDepth
 
-## Utilisation 
+## Use
 
 ### Depthmap generator
 
@@ -21,10 +21,10 @@ Dependencies :
 - Tensorflow
 
 Uses : 
-In `depthmap_generator/`, donwnload and put a pretrained model in `pretrained/`. You can refer to [NYU Depth V2 model](https://drive.google.com/file/d/19dfvGvDfCRYaqxVKypp1fRHwK7XtSjVu/view?usp=sharing), as we have tested it only with this model. If you want to use another model you can specify the `--model` argument. 
+In `depthmap_generator/`, download and put a pretrained model in `pretrained/`. You can refer to [NYU Depth V2 model](https://drive.google.com/file/d/19dfvGvDfCRYaqxVKypp1fRHwK7XtSjVu/view?usp=sharing), as we have tested it only with this model. If you want to use another model you can specify the `--model` argument. 
 
 Put images on `image/` directory, if you want to use another file path you can specify the `--input` argument. 
-Also, by default images will be resize in 640 by 480 (portrait or landscape is not a problem) because the model was trained on Nyu dataset, if you use other models you can specify the size with `--size` arguments.
+Also, by default images will be resized in 640 by 480 (portrait or landscape is not a problem) because the model was trained on Nyu dataset, if you use another model you can specify the size with `--size` arguments.
 
 Now you can launch `python3 generator.py` to generate your depthmaps. 
 
@@ -88,52 +88,52 @@ phone/camera parameters :
 |   H   |  0.3   |  0.15  |  0.08  |
 |   I   |  0.32  |  0.08  |  0.05  |
 
-## Utilisation de Opencv
+## Opencv use
 import cv2
 
-**charger une image couleur**
+**load RGB Image**
 
 img=cv2.imread("totoro.png")
 
-**charger une image niveau de gris**
+**load gray Image**
 
 img_depth = cv2.imread("totoro_depth.png",cv2.IMREAD_GRAYSCALE)
 
-**obtenir la taille d'une image**
+**get Image's shape**
 
 img.shape
 
-(hauteur, largeur)
+(height, width)
 
-**afficher une image**
+**show image**
 
 cv2.imshow("image",img)
 
-**sauvegarder une image**
+**save image**
 
 filename = "resultat.png"
 
 cv2.imwrite(filename, img_depth)
 
-**séparer les canaux d'une image couleur**
+**split RGB image's channels**
 
 B, G, R = cv2.split(img)
 
 cv2.imshow("blue", B)
 
-**additionner(superposer) 2 images**
+**overlaid 2 images**
 
 cv2.addWeighted(img1, wt1, img2, wt2, gammaValue)
 
-wt1 est le poids de l'image1 et wt2 celui de l'image2
+wt1 : image1's weigth
+wt2 : image2's weigth
+gammaValue : light's measure, example 0
 
-gammaValue est la mesure de la lumière, exemple 0
-
-**redimensionner une image**
+**resize image**
 
 new_image = cv2.resize(img_depth, (width,height))
 
-**detection de contour Canny**
+**Canny edge detection**
 
 canny = cv2.Canny(new_image, minval, maxval)
 
