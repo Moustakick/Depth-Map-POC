@@ -2,7 +2,7 @@ import numpy as np
 
 import utils
 
-def ponctual_masks_exctration(image, depthmap, center, radius, extent):
+def masks_exctration(image, depthmap, center=0.5, radius=0.1, extent=0.1):
     """Extract the near and far field masks 
     
     Args:
@@ -55,6 +55,9 @@ def ponctual_masks_exctration(image, depthmap, center, radius, extent):
         # inside near or far field
         return 1
     
+    center = 0.5 if center is None else center
+    radius = 0.1 if radius is None else radius
+    extent = 0.1 if extent is None else extent
     height, width, channels = image.shape
 
     # Calcul fields mask

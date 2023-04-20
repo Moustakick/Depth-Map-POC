@@ -4,8 +4,9 @@ from scipy import signal
 
 import utils
 
-def linghtness(image, masks, value):
+def lightness(image, masks, value=0.5):
 
+    value = 0.5 if value is None else value
     height, width, channels = image.shape
 
     # extract masks
@@ -35,6 +36,7 @@ def depth_of_field(image, masks, kernel_length=7, debug=False):
         numpy array: result
     """
 
+    kernel_length = 7 if kernel_length is None else kernel_length
     height, width, channels = image.shape
 
     # extract masks
@@ -151,7 +153,7 @@ def threshold(image, depthmap, thrshld:float, keep_near=True):
     return result
 
 # TODO : enhanced with noise !!!
-def fog(image, depthmap, density=1, fog_color=[.5, .5, .5]):
+def fog(image, depthmap, density=1, fog_color_R=0.5, fog_color_G=0.5, fog_color_B=0.5):
     """Add a fog effect to the image
 
     Args:
@@ -172,6 +174,12 @@ def fog(image, depthmap, density=1, fog_color=[.5, .5, .5]):
     
     def exponential_squared_fog(depth, density):
         return 2**(-((depth*density)**2))
+
+    density = 1 if density is None else density
+    fog_color_R = 0.5 if fog_color_R is None else fog_color_R
+    fog_color_G = 0.5 if fog_color_G is None else fog_color_G
+    fog_color_B = 0.5 if fog_color_B is None else fog_color_B
+    fog_color = [fog_color_B, fog_color_G, fog_color_R]
 
     height, width, channels = image.shape
     result = np.zeros((height, width, channels))

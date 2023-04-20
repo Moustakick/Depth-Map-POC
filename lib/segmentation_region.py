@@ -234,7 +234,9 @@ def list_adjacence(height, width, pixelinregion, tabRegion, list_region, list_in
                     list_neighbour.append(int(l))
     return list_adj
 
-def segmentation(image_name, distance):
+def segmentation(image_name, distance=10):
+    distance = 10 if distance is None else distance
+
     if not os.path.exists(image_name) or not os.path.isfile(image_name):
         print("This image does not exist!")
         return
