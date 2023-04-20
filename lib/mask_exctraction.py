@@ -71,4 +71,3 @@ def ponctual_masks_exctration(image, depthmap, center, radius, extent):
                 far_field_mask[i,j] = value
 
     return near_field_mask, far_field_mask
-

@@ -11,8 +11,6 @@ def average_gradient_magnitude(image):
     gradient_y = cv2.Sobel(gray, cv2.CV_32F, 0, 1, ksize=5)
     gradient_norm = np.sqrt(gradient_x**2 + gradient_y**2)
 
-    utils.save_image(gradient_norm, "norm")
-
     sharpness = np.average(gradient_norm)
     return sharpness
 

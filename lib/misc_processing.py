@@ -1,7 +1,8 @@
 import numpy as np
 import cv2
+from skimage import filters
 
-import utils, global_processing
+import utils
 
 def graylvl_quantization(image, k):
     # define criteria, number of clusters(K) and apply kmeans()

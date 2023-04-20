@@ -60,6 +60,23 @@ def save_image(image, name:str):
     image = interval(image, 0, 255)
     cv2.imwrite(name+'.png', image)
 
+def save_masks(masks):
+    """Save masks from array as png
+
+    Args:
+        masks (tuple): both near and far mask
+    """
+
+    near_mask, far_mask = masks
+    height, width = near_mask.shape
+    mask = np.zeros((height, width, 3))
+
+    for i in range(height):
+        for j in range(width):
+            mask[i,j] = [far_mask[i,j], near_mask[i,j], 0]
+    
+    save_image(mask, "mask")
+
 def scale(image, scale):
     """Rescale image
 

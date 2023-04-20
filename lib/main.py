@@ -30,27 +30,30 @@ def main():
 
     ''' process exemples '''
     # apply fog
-#    result = depth_processing.fog(image, depthmap, 5, [.4, .4, .4])
+#    result = depth_processing.fog(image, depthmap, 10, [.4, .4, .4])
     # extract masks
-    masks = mask_exctraction.ponctual_masks_exctration(image, depthmap, center=0.32, radius=0.08, extent=0.05)
+#    masks = mask_exctraction.ponctual_masks_exctration(image, depthmap, center=0.3, radius=0, extent=0)
     # use masks for depth_of_field (portrait) effect
-    result = depth_processing.depth_of_field(image, masks, kernel_length=7, debug=True)
+#    result = depth_processing.depth_of_field(image, masks, kernel_length=7, debug=True)
     # use masks for lightness correction
 #    result = depth_processing.linghtness(image, masks, 0.2)
 
     ''' evaluation exemple '''
 #    evaluation = quality_measures.average_gradient_magnitude(image)
-#    evaluation = quality_measures.signal_noise_ratio(image, image2)
+    evaluation = quality_measures.signal_noise_ratio(image, image2)
 
 #    result = utils.scale(image, (480,640))
+#    result = misc_processing.edges(image)
 
     ''' saving results '''
     # save 
-    utils.save_image(result, 'result')
+#    utils.save_image(result, 'result')
+    # save masks
+#    utils.save_masks(masks)
     # generate .obj file 
 #    mesh.save_as_obj(image, depthmap)
     # show measure 
-#    print("eval:", evaluation)
+    print("eval:", evaluation)
 
 if __name__ == "__main__":
     main()
