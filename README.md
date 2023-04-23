@@ -13,6 +13,7 @@ Dependencies :
 Uses : </br>
 In `lib/`, you can run the main file with `python3 main.py` like this : 
 
+```
 usage: main.py [-h] [--test TEST] [--arg1 ARG1] [--arg2 ARG2] [--arg3 ARG3]
                [--arg4 ARG4]
                image depthmap process
@@ -65,6 +66,7 @@ optional arguments:
           third argument of the process function, see process argument
   --arg4 ARG4
           fourth argument of the process function, see process argument
+```
 
 ### Depthmap generator
 
