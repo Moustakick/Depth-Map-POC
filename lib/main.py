@@ -46,7 +46,7 @@ light : --arg1 focal_center (between 0 and 1, default=0.5)
         --arg4 value (between 0 and 1, default=0.5)
         apply lightness on the image from the mask
 
-segm :  --arg1 distance (default=0.1)
+segm :  --arg1 distance (default=10)
         segment the image using the depthmap
         ''')
     parser.add_argument('--test', default=None, type=str, help='path to image file assuming that depthmap path is equal and ended with \'_depth\'')

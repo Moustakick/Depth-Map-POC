@@ -50,7 +50,7 @@ positional arguments:
                   --arg4 value (between 0 and 1, default=0.5)
                   apply lightness on the image from the mask
           
-          segm :  --arg1 distance (default=0.1)
+          segm :  --arg1 distance (default=10)
                   segment the image using the depthmap
 
 optional arguments:
