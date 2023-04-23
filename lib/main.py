@@ -20,7 +20,7 @@ def main():
     # main args
     parser.add_argument('image', default=None, type=str, help='path to image file')
     parser.add_argument('depthmap', default=None, type=str, help='path to depthmap file')
-    parser.add_argument('process', default=None, type=str, help='''\
+    parser.add_argument('process',  choices=['fog', 'mask', 'dof', 'light', 'segm', 'eval', 'obj'], default=None, type=str, help='''\
 fog, dof (depth of field), light or segm :
 --------------------------------
 fog :   --arg1 density (integer, default=1) 
