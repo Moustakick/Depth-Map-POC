@@ -2,9 +2,9 @@ import argparse, sys
 import utils, depth_processing, mask_exctraction, mesh, quality_measures, segmentation_region
 
 def help():
-    print('--image argument to specify an image file')
-    print('--depthmap argument to specify an depthmap file')
-    print('--process argument to specify a process from :')
+    print('image : argument to specify an image file')
+    print('depthmap : argument to specify an depthmap file')
+    print('process : argument to specify a process from :')
     print('\tfog --arg1 density --arg2 fog_color_R --arg3 fog_color_G --arg3 fog_color_B')
     print('\tmask --arg1 focal_center --arg2 focal_radius --arg3 transition_extent')
     print('\tdof --arg1 focal_center --arg2 focal_radius --arg3 transition_extent --arg4 kernel_length')
@@ -14,16 +14,46 @@ def help():
     print('\tobj')
 
 def main():
-    parser = argparse.ArgumentParser(description='Process two files')
+    less_indent_formatter = lambda prog: argparse.RawTextHelpFormatter(prog, max_help_position=10)
+    parser = argparse.ArgumentParser(formatter_class=less_indent_formatter,
+        description='Process an image file using his depthmap.')
     # main args
-    parser.add_argument('--image', default=None, type=str, help='path to image file')
-    parser.add_argument('--depthmap', default=None, type=str, help='path to depthmap file')
+    parser.add_argument('image', default=None, type=str, help='path to image file')
+    parser.add_argument('depthmap', default=None, type=str, help='path to depthmap file')
+    parser.add_argument('process', default=None, type=str, help='''\
+fog, dof (depth of field), light or segm :
+--------------------------------
+fog :   --arg1 density (integer, default=1) 
+        --arg2 fog_color_R (between 0 and 1, default=0.5) 
+        --arg3 fog_color_G (between 0 and 1, default=0.5)
+        --arg4 fog_color_B (between 0 and 1, default=0.5)
+        apply fog on the image
+
+mask :  --arg1 focal_center (between 0 and 1, default=0.5)
+        --arg2 focal_radius (between 0 and 1, default=0.1)
+        --arg3 transition_extent (between 0 and 1, default=0.1)
+        calculate the near and far field mask
+
+dof :   --arg1 focal_center (between 0 and 1, default=0.5)
+        --arg2 focal_radius (between 0 and 1, default=0.1)
+        --arg3 transition_extent (between 0 and 1, default=0.1)
+        --arg4 kernel_length (integer, default=7)
+        apply depth of field on the image from the mask
+
+light : --arg1 focal_center (between 0 and 1, default=0.5)
+        --arg2 focal_radius (between 0 and 1, default=0.1)
+        --arg3 transition_extent (between 0 and 1, default=0.1)
+        --arg4 value (between 0 and 1, default=0.5)
+        apply lightness on the image from the mask
+
+segm :  --arg1 distance (default=0.1)
+        segment the image using the depthmap
+        ''')
     parser.add_argument('--test', default=None, type=str, help='path to image file assuming that depthmap path is equal and ended with \'_depth\'')
-    parser.add_argument('--process', default=None, type=str, help='use : fog, dof or light')
-    parser.add_argument('--arg1', default=None, type=str, help='first argument of the process function')
-    parser.add_argument('--arg2', default=None, type=str, help='second argument of the process function')
-    parser.add_argument('--arg3', default=None, type=str, help='third argument of the process function')
-    parser.add_argument('--arg4', default=None, type=str, help='fourth argument of the process function')
+    parser.add_argument('--arg1', default=None, type=str, help='first argument of the process function, see process argument')
+    parser.add_argument('--arg2', default=None, type=str, help='second argument of the process function, see process argument')
+    parser.add_argument('--arg3', default=None, type=str, help='third argument of the process function, see process argument')
+    parser.add_argument('--arg4', default=None, type=str, help='fourth argument of the process function, see process argument')
 
     args = parser.parse_args()
 
