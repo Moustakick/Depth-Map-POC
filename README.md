@@ -11,7 +11,60 @@ Dependencies :
 - Scipy
 
 Uses : </br>
-In `lib/`, you can run the main file with `python3 main.py`, also this should show you the help menu. Use the `--image` and `--depthmap` arguments to specify the files of the image and depthmap you would use. With the `--process` argument you can specify which algorithm you want to apply. Some algorithm can take additional arguments, so you can use `--argi` with i from 1 to 4 to specify them. For more information about functions arguments, you can refer to the code documentation.
+In `lib/`, you can run the main file with `python3 main.py` like this : 
+
+usage: main.py [-h] [--test TEST] [--arg1 ARG1] [--arg2 ARG2] [--arg3 ARG3]
+               [--arg4 ARG4]
+               image depthmap process
+
+Process an image file using his depthmap.
+
+positional arguments:
+  image   path to image file
+  depthmap
+          path to depthmap file
+  process
+          fog, dof, light or segm :
+          --------------------------------
+          fog :   --arg1 density (integer, default=1) 
+                  --arg2 fog_color_R (between 0 and 1, default=0.5) 
+                  --arg3 fog_color_G (between 0 and 1, default=0.5)
+                  --arg4 fog_color_B (between 0 and 1, default=0.5)
+                  apply fog on the image
+          
+          mask :  --arg1 focal_center (between 0 and 1, default=0.5)
+                  --arg2 focal_radius (between 0 and 1, default=0.1)
+                  --arg3 transition_extent (between 0 and 1, default=0.1)
+                  calculate the near and far field mask
+          
+          dof :   --arg1 focal_center (between 0 and 1, default=0.5)
+                  --arg2 focal_radius (between 0 and 1, default=0.1)
+                  --arg3 transition_extent (between 0 and 1, default=0.1)
+                  --arg4 kernel_length (integer, default=7)
+                  apply depth of field on the image from the mask
+          
+          light : --arg1 focal_center (between 0 and 1, default=0.5)
+                  --arg2 focal_radius (between 0 and 1, default=0.1)
+                  --arg3 transition_extent (between 0 and 1, default=0.1)
+                  --arg4 value (between 0 and 1, default=0.5)
+                  apply lightness on the image from the mask
+          
+          segm :  --arg1 distance (default=0.1)
+                  segment the image using the depthmap
+
+optional arguments:
+  -h, --help
+          show this help message and exit
+  --test TEST
+          path to image file assuming that depthmap path is equal and ended with '_depth'
+  --arg1 ARG1
+          first argument of the process function, see process argument
+  --arg2 ARG2
+          second argument of the process function, see process argument
+  --arg3 ARG3
+          third argument of the process function, see process argument
+  --arg4 ARG4
+          fourth argument of the process function, see process argument
 
 ### Depthmap generator
 
