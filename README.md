@@ -1,4 +1,8 @@
-# PDP
+# Image processing with depthmap
+
+## Presentation
+
+This repository came from the end-of-year project for my first year of a master's degree in computer science specializing in image and sound at the University of Bordeaux. We've worked in a group composed of Dubois Yanis, Lacoste Théo, Oçafrain Maxime and Riverain Olivier to develop an proof of concept application for image processing, based on the use of depth maps. The project was proposed by Pascal Desbarats, a researcher at LaBRI, who also supervised us throughout.
 
 ## Use
 
